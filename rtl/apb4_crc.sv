@@ -157,16 +157,16 @@ module apb4_crc (
     end else if (s_bit_en && s_trans_done) begin  // write result
       if (s_bit_revout) begin
         unique case (s_bit_mode)  // trick: right align
-          `CRC8_MODE:       s_crc_data_d = s_crc8_q_rev ^ s_crc_xorv_q[7:0];
-          `CRC16_1021_MODE: s_crc_data_d = s_crc16_q_rev ^ s_crc_xorv_q[15:0];
-          `CRC16_8005_MODE: s_crc_data_d = s_crc16_q_rev ^ s_crc_xorv_q[15:0];
+          `CRC8_MODE:       s_crc_data_d[7:0] = s_crc8_q_rev ^ s_crc_xorv_q[7:0];
+          `CRC16_1021_MODE: s_crc_data_d[15:0] = s_crc16_q_rev ^ s_crc_xorv_q[15:0];
+          `CRC16_8005_MODE: s_crc_data_d[15:0] = s_crc16_q_rev ^ s_crc_xorv_q[15:0];
           `CRC32_MODE:      s_crc_data_d = s_crc32_q_rev ^ s_crc_xorv_q[31:0];
         endcase
       end else begin
         unique case (s_bit_mode)
-          `CRC8_MODE:       s_crc_data_d = s_crc8_q ^ s_crc_xorv_q[7:0];
-          `CRC16_1021_MODE: s_crc_data_d = s_crc16_q ^ s_crc_xorv_q[15:0];
-          `CRC16_8005_MODE: s_crc_data_d = s_crc16_q ^ s_crc_xorv_q[15:0];
+          `CRC8_MODE:       s_crc_data_d[7:0] = s_crc8_q ^ s_crc_xorv_q[7:0];
+          `CRC16_1021_MODE: s_crc_data_d[15:0] = s_crc16_q ^ s_crc_xorv_q[15:0];
+          `CRC16_8005_MODE: s_crc_data_d[15:0] = s_crc16_q ^ s_crc_xorv_q[15:0];
           `CRC32_MODE:      s_crc_data_d = s_crc32_q ^ s_crc_xorv_q[31:0];
         endcase
       end
