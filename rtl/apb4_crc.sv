@@ -71,9 +71,9 @@ module apb4_crc (
 
   // data16
   for (genvar i = 0; i < 16; i++) begin : DATA16_REV_BLOCK
-    if (i < 8) begin
+    if (i < 8) begin : DATA16_REV_LESS8_BLOCK
       assign s_crc_data16_wr_rev[i] = s_crc_data16_wr[7-i];
-    end else begin
+    end else begin : DATA16_REV_OTHER_BLOCK
       assign s_crc_data16_wr_rev[i] = s_crc_data16_wr[15-(i-8)];
     end
     assign s_crc16_q_rev[i] = s_crc16_q[15-i];
@@ -81,24 +81,24 @@ module apb4_crc (
 
   // data24
   for (genvar i = 0; i < 24; i++) begin : DATA24_REV_BLOCK
-    if (i < 8) begin
+    if (i < 8) begin : DATA24_REV_LESS8_BLOCK
       assign s_crc_data24_wr_rev[i] = s_crc_data24_wr[7-i];
-    end else if (i < 16) begin
+    end else if (i < 16) begin : DATA24_REV_LESS16_BLOCK
       assign s_crc_data24_wr_rev[i] = s_crc_data24_wr[15-(i-8)];
-    end else begin
+    end else begin : DATA24_REV_OTHER_BLOCK
       assign s_crc_data24_wr_rev[i] = s_crc_data24_wr[23-(i-16)];
     end
   end
 
   // data32
   for (genvar i = 0; i < 32; i++) begin : DATA32_REV_BLOCK
-    if (i < 8) begin
+    if (i < 8) begin : DATA32_REV_LESS8_BLOCK
       assign s_crc_data32_wr_rev[i] = s_crc_data32_wr[7-i];
-    end else if (i < 16) begin
+    end else if (i < 16) begin : DATA32_REV_LESS16_BLOCK
       assign s_crc_data32_wr_rev[i] = s_crc_data32_wr[15-(i-8)];
-    end else if (i < 24) begin
+    end else if (i < 24) begin : DATA32_REV_LESS24_BLOCK
       assign s_crc_data32_wr_rev[i] = s_crc_data32_wr[23-(i-16)];
-    end else begin
+    end else begin : DATA32_REV_OTHER_BLOCK
       assign s_crc_data32_wr_rev[i] = s_crc_data32_wr[31-(i-24)];
     end
     assign s_crc32_q_rev[i] = s_crc32_q[31-i];
