@@ -61,7 +61,7 @@ module apb4_crc (
   assign s_crc_data16_wr = apb4.pwdata[15:0];
   assign s_crc_data24_wr = apb4.pwdata[23:0];
   assign s_crc_data32_wr = apb4.pwdata[31:0];
-  assign s_trans_done    = s_calc_cnt_q == s_bit_size + 1'd1;
+  assign s_trans_done    = s_calc_cnt_q == {1'b0, s_bit_size} + 1'd1;
 
   // data8
   for (genvar i = 0; i < 8; i++) begin : DATA8_REV_BLOCK
