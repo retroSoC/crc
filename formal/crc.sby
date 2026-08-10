@@ -1,0 +1,19 @@
+[tasks]
+prove
+cover
+
+[options]
+prove: mode prove
+prove: depth 12
+cover: mode cover
+cover: depth 20
+
+[engines]
+smtbmc bitwuzla
+
+[script]
+read -formal crc_formal.v
+prep -top crc_formal
+
+[files]
+build/formal-src/crc_formal.v

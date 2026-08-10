@@ -1,25 +1,29 @@
 # CRC
 
-## Features
-* Max 32-bit CRC code calculation
-* Multiple CRC polynomials support
-    * CRC8  - 0x07
-    * CRC16 - 0x1021
-    * CRC16 - 0x8005
-    * CRC32 - 0x04c11db7
-* Input byte reverse support
-* Output bit reverse support
-* Programmable init data register and ouput XOR data register
-* Internal LFSR technique implementation
-* 1~4 APB4 clock cycle calculation peroid
-* Static synchronous design
-* Full synthesizable
+CRC V2 is a programmable APB4 streaming checksum accelerator. It supports
+7-, 8-, 16-, and 32-bit CRCs, programmable polynomial/initial/final-XOR
+values, input and output reflection, byte-order selection, and continuous
+1-, 2-, or 4-byte DATA writes.
 
-FULL vision of datatsheet can be found in [datasheet.md](./doc/datasheet.md).
+The V2 ABI replaces the legacy fixed-polynomial block. A calculation is an
+explicit START, zero or more DATA writes, and FINISH transaction, so successive
+writes update one CRC state instead of restarting from INIT.
+DATA writes use bounded APB wait states while the datapath consumes one byte
+per clock.
 
-## Build and Test
+See [the datasheet](doc/datasheet.md),
+[integration guide](doc/integration.md), and
+[verification guide](doc/verification.md).
+
+## Build And Test
+
+The default layout expects the Common repository at `../common`.
+
 ```bash
-make comp    # compile code with vcs
-make run     # compile and run test with vcs
-make wave    # open fsdb format waveform with verdi
+make doctor
+make format-check register-check lint
+make test synth formal
 ```
+
+The register map is hand-written. `make register-check` compares the RTL and C
+definitions; no register generator is used.
